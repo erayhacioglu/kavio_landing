@@ -1,0 +1,143 @@
+.card_preview_container {
+  background-color: #fff;
+  height: 520px;
+  border-radius: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  perspective: 1200px;
+
+  .card_change_button {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #eee;
+    color: #535353;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+
+  .nfc_card {
+    width: 420px;
+    height: 260px;
+    position: relative;
+    border-radius: 20px;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    &.is-back {
+      transform: rotateY(180deg);
+    }
+
+    .nfc_card_face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      background: #1f1b20;
+      color: #fff;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.2);
+      &.black {
+        background: #1f1b20;
+        color: #fff;
+      }
+      &.silver {
+        background: #bdbdbd;
+        color: #111;
+      }
+      &.gold {
+        background: #d4af37;
+        color: #fff9e5;
+      }
+    }
+
+    .nfc_card_front {
+      background: #1f1b20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .card_logo {
+        width: clamp(100px, 40%, 180px);
+        height: auto;
+        object-fit: contain;
+        display: block;
+      }
+    }
+
+    .nfc_card_back {
+      background: #1f1b20;
+      transform: rotateY(180deg);
+      padding: 20px;
+      &.black {
+        background: #1f1b20;
+        color: #fff;
+      }
+      &.silver {
+        background: #bdbdbd;
+        color: #111;
+      }
+      &.gold {
+        background: #d4af37;
+        color: #fff9e5;
+      }
+      .qr_zone {
+        width: 100px;
+        height: 100px;
+        background: #fff;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        position: absolute;
+        right: 25px;
+
+        .qr_image {
+          width: 80%;
+          height: 80%;
+          object-fit: contain;
+        }
+      }
+
+      .card_info {
+        position: absolute;
+        left: 25px;
+        bottom: 25px;
+
+        .card_name {
+          font-size: 20px;
+          font-weight: 600;
+          margin: 0 0 6px 0;
+        }
+
+        .card_title {
+          font-size: 14px;
+          opacity: 0.9;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .card_preview_container {
+    height: 350px;
+  }
+}

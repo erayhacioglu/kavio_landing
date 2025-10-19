@@ -1,0 +1,47 @@
+/* Card Features */
+
+.card_feature {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  align-items: center;
+  width: 100%;
+  gap: 4rem;
+  padding: 5rem 0;
+  overflow: visible !important;
+  .card_feature_content {
+    .card_feature_slogan {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+    .card_feature_description {
+      font-size: 1.25rem;
+      color: #bababa;
+      line-height: 1.6;
+    }
+  }
+  .card_feature_picture {
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.08);
+    position: relative;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    overflow: hidden;
+    .card_feature_gif{
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+
+@media only screen and (max-width:992px){
+  .card_feature{
+    grid-template-columns: repeat(1,1fr);
+  }
+}

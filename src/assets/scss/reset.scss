@@ -1,0 +1,131 @@
+/* ======= Gelişmiş Reset ve Normalize CSS ======= */
+
+/* 1. Varsayılan marj ve padding'leri sıfırla */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+/* 2. Varsayılan fontları ve satır yüksekliğini ayarla */
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  font-family: system-ui, sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* 3. Body için temel ayarlar */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+}
+
+/* 4. Listeleri sıfırla */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 5. Varsayılan link stillerini sıfırla */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 6. Görsellerin taşmasını önle */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 7. Form elemanları için uyumlu görünüm */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  appearance: none;
+}
+
+/* 8. Button ve benzeri elemanlar için pointer */
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/* 9. Tabloya genel sıfırlama */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 10. Kod blokları için uyumlu font */
+pre,
+code,
+kbd,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+/* 11. HTML5 semantic elementlerin görünürlüğü */
+article,
+aside,
+footer,
+header,
+nav,
+main,
+section,
+figure,
+figcaption {
+  display: block;
+}
+
+/* 12. Placeholder stilini varsayılan yap */
+::placeholder {
+  opacity: 1;
+  color: #888;
+}
+
+/* 13. Seçim rengini özelleştir */
+::selection {
+  background-color: #b3d4fc;
+  color: #000;
+}
+
+/* 15. Form kontrolü: Checkbox ve Radio görünümünü sıfırla */
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+  margin: 0;
+}
+
+/* 16. Responsive typography önerisi */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

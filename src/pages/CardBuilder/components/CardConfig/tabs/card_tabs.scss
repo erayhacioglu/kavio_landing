@@ -1,0 +1,202 @@
+/* Taşma sorunları için: ebeveynde visible, çocuklarda min-width:0 */
+.card_tab {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  overflow: visible; /* dropdown kesilmesin */
+}
+
+/* Üst satır: dropdown + adet + trash */
+.card_group {
+  display: grid;
+  grid-template-columns: 1fr 80px 36px;
+  gap: 10px;
+  align-items: center;
+
+
+  .card_dropdown,
+  .card_counter,
+  .card_trash { min-width: 0; }
+
+  .card_dropdown { position: relative; }
+
+  /* dropdown kapalı buton */
+  .dropdown_btn {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto auto; /* label | dot | caret */
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color .15s ease, box-shadow .15s ease;
+
+    &:hover { border-color: #9ca3af; }
+    &.is-open {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+    }
+  }
+
+  /* label solda */
+  .dropdown_label {
+    font-size: 14px;
+    color: #4b5563;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    justify-self: start; /* solda kal */
+  }
+
+  .swatch {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1px solid #d1d5db;
+  }
+
+  .caret {
+    font-size: 12px; color: #6b7280; transition: transform .18s ease;
+  }
+  .dropdown_btn.is-open .caret { transform: rotate(180deg); }
+
+  /* MENÜ: 2 item tam görünsün, kalan scroll */
+  .dropdown_menu {
+    --item-h: 74px; /* satır yüksekliğini kesin veriyoruz */
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0; right: 0;
+    z-index: 1000;
+
+    display: grid;
+    gap: 8px;
+    padding: 8px;
+
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(15,23,42,.12);
+
+    /* sadece 2 satır + aralar tam görünsün */
+    max-height: calc(var(--item-h) * 2 + 8px /* grid gap */ + 16px /* padding */);
+    overflow-y: auto;
+
+    /* scroll bar estetik */
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+    &::-webkit-scrollbar { width: 6px; }
+    &::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:999px; }
+  }
+
+  .option_row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px;
+    height: var(--item-h); /* FIX: sabit yükseklik -> ikinci kart tam görünür */
+    background: #f9fafb;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+    margin-bottom: 10px;
+    &:last-child{
+        margin-bottom: 0;
+    }
+
+    &:hover { border-color:#e5e7eb; background:#f3f4f6; }
+    &.is-active {
+      border-color:#c7d2fe;
+      box-shadow:0 0 0 2px rgba(59,130,246,.15);
+      background:#f0f9ff;
+    }
+  }
+
+  .option_label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #4b5563;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .variant_preview { justify-self: end; }
+
+  .mini_card {
+    width: 100px; height: 60px;
+    border-radius: 8px;
+    display: grid; place-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+
+    &[data-variant="black"]  { background:#262626; color:#f5f5f5; }
+    &[data-variant="silver"] { background:#bdbdbd; color:#111; }
+    &[data-variant="white"]  { background:#fff;     color:#bcbcbc; }
+    &[data-variant="red"]    { background:#ef4444; color:#fff; }
+    &[data-variant="gold"]   { background:#d4af37; color:#fff9e5; }
+
+    .mini_brand { font-weight:700; font-size:14px; letter-spacing:3px; }
+  }
+
+  /* ADET */
+  .qty_input {
+    width: 80px; height: 40px;
+    border: 1px solid #d1d5db; border-radius: 8px;
+    background:#fff; padding:0 10px;
+    font-size: 16px; color:#9ca3af; outline:none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+    &:focus { border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,.15); }
+  }
+
+  /* TRASH */
+  .card_trash { justify-self: end; }
+  .trash_btn {
+    width: 36px; height: 36px;
+    display: grid; place-items:center;
+    border-radius: 8px; border: 1px solid #E5E7EB;
+    background: #fff; color:#374151;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease, transform .06s ease;
+    &:hover { background:#F3F4F6; border-color:#D1D5DB; }
+    &:active { transform: translateY(1px); }
+  }
+
+  /* responsive */
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr auto 36px;
+    gap: 10px;
+    .qty_input { width: 72px; }
+  }
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+    .card_counter, .card_trash { justify-self: start; }
+    .qty_input { width: 100%; }
+  }
+}
+
+/* Ekle butonu */
+.card_add_button_container{
+  width:100%;
+  display:flex; align-items:center; justify-content:center;
+  padding-top:8px;
+
+  .card_add_button{
+    width:40px; height:40px; border-radius:50%;
+    background:#d9d9d9; color:#535353;
+    display:flex; align-items:center; justify-content:center;
+    border:none; cursor:pointer;
+  }
+}
+
+/* Eğer bu CardTab, sağdaki config panel içinde ise ve
+   panelde overflow:auto varsa menü kesilebilir.
+   Bunu önlemek için, panel içindeki card_tab'e özel olarak overflow'u kaldır: */
+
+.card_config_body .card_tab { overflow: visible; }
+.card_config_body { overflow: visible; }  /* menü taşmasını serbest bırak */

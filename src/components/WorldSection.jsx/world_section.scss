@@ -1,0 +1,124 @@
+.world-section {
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  padding: 6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .world-container {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1400px;
+    margin-bottom: 4rem;
+    gap: 3rem;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .world-left {
+      h1 {
+        font-size: 3rem;
+        line-height: 1.2;
+        font-weight: 700;
+        text-align: left;
+        color: #fff;
+        border-left: 3px solid #fff;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+
+        @media (max-width: 992px) {
+          text-align: center;
+          border: none;
+          font-size: 2.3rem;
+        }
+
+        @media (max-width: 576px) {
+          font-size: 1.8rem;
+        }
+      }
+
+      .world-desc {
+        font-size: 1.1rem;
+        color: #ccc;
+        text-align: left;
+        max-width: 400px;
+
+        @media (max-width: 992px) {
+          text-align: center;
+          margin: 0 auto;
+        }
+
+        @media (max-width: 576px) {
+          font-size: 0.95rem;
+        }
+      }
+    }
+
+    .world-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .world-map {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        object-fit: contain;
+        border-radius: 8px;
+        transition: transform 0.4s ease;
+
+        &:hover {
+          transform: scale(1.02);
+        }
+
+        @media (max-width: 992px) {
+          max-width: 600px;
+        }
+
+        @media (max-width: 576px) {
+          max-width: 90%;
+        }
+      }
+    }
+  }
+
+  .world-bottom {
+    max-width: 900px;
+    text-align: center;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #fff;
+
+      @media (max-width: 576px) {
+        font-size: 1.4rem;
+      }
+    }
+
+    p {
+      font-size: 1rem;
+      color: #bdbdbd;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+      @media (max-width: 576px) {
+        font-size: 0.95rem;
+      }
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      margin-top: 1rem;
+    }
+  }
+}

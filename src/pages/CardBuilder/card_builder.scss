@@ -1,0 +1,18 @@
+/*Card Builder*/
+
+body {
+  background: #191919;
+}
+
+.card_builder {
+  display: grid;
+  grid-template-columns: calc(60% - 20px) calc(40% - 20px);
+  gap: 40px;
+}
+
+@media only screen and (max-width:992px){
+  .card_builder{
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
