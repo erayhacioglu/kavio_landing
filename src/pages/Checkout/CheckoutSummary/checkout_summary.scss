@@ -1,0 +1,354 @@
+// .checkout_summary {
+//   background-color: #ededed;
+//       border-radius: 6px;
+//       padding: 30px;
+//       height: min-content;
+//   color: #333;
+
+//   .items {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 1.2rem;
+
+//     .item {
+//       display: flex;
+//       align-items: center;
+//       justify-content: space-between;
+
+//       .item-image {
+//         position: relative;
+
+//         img {
+//           width: 60px;
+//           height: 40px;
+//           border-radius: 6px;
+//           object-fit: cover;
+//         }
+
+//         .badge {
+//           position: absolute;
+//           top: -6px;
+//           right: -6px;
+//           background: #111;
+//           color: #fff;
+//           border-radius: 50%;
+//           font-size: 0.7rem;
+//           width: 18px;
+//           height: 18px;
+//           display: flex;
+//           align-items: center;
+//           justify-content: center;
+//         }
+//       }
+
+//       .item-info {
+//         flex: 1;
+//         margin-left: 1rem;
+
+//         .item-name {
+//           font-size: 0.95rem;
+//           color: #333;
+//           margin: 0;
+//         }
+
+//         .item-price {
+//           font-weight: 600;
+//           color: #111;
+//           margin: 0;
+//         }
+//       }
+//     }
+//   }
+
+//   hr {
+//     border: none;
+//     border-top: 1px solid #ddd;
+//     margin: 1.5rem 0;
+//   }
+
+//   .discount {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 0.6rem;
+
+//     label {
+//       color: #777;
+//       font-size: 0.9rem;
+//     }
+
+//     .discount-input {
+//       display: flex;
+//       gap: 0.5rem;
+
+//       input {
+//         flex: 1;
+//         padding: 0.5rem;
+//         border-radius: 4px;
+//         border: 1px solid #ccc;
+//       }
+
+//       button {
+//         background: #111;
+//         color: #fff;
+//         border: none;
+//         padding: 0.5rem 1rem;
+//         border-radius: 4px;
+//         cursor: pointer;
+//         font-size: 0.9rem;
+
+//         &:hover {
+//           background: #000;
+//         }
+//       }
+//     }
+
+//     .applied {
+//       font-weight: 600;
+//       color: #222;
+//     }
+//   }
+
+//   .summary-totals {
+//     margin-top: 1.5rem;
+
+//     .line {
+//       display: flex;
+//       justify-content: space-between;
+//       font-size: 0.95rem;
+//       margin-bottom: 0.4rem;
+
+//       &.small {
+//         font-size: 0.85rem;
+//         color: #777;
+//       }
+
+//       &.total {
+//         margin-top: 1rem;
+//         font-size: 1.1rem;
+//       }
+
+//       &.discount-line {
+//         color: #c62828;
+//       }
+//     }
+//   }
+
+//   .accept-btn {
+//     width: 100%;
+//     background: #4a68ff;
+//     color: #fff;
+//     border: none;
+//     padding: 0.8rem;
+//     border-radius: 6px;
+//     font-weight: 600;
+//     margin-top: 1rem;
+//     cursor: pointer;
+//     transition: 0.2s ease;
+
+//     &:hover {
+//       background: #3657e0;
+//     }
+//   }
+// }
+
+
+
+
+.checkout_summary {
+  background-color: #ededed;
+  border-radius: 6px;
+  padding: 30px;
+  height: min-content;
+  color: #333;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+
+  @media (max-width: 576px) {
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      .item-image {
+        position: relative;
+
+        img {
+          width: 60px;
+          height: 40px;
+          border-radius: 6px;
+          object-fit: cover;
+
+          @media (max-width: 576px) {
+            width: 50px;
+            height: 32px;
+          }
+        }
+
+        .badge {
+          position: absolute;
+          top: -6px;
+          right: -6px;
+          background: #111;
+          color: #fff;
+          border-radius: 50%;
+          font-size: 0.7rem;
+          width: 18px;
+          height: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .item-info {
+        flex: 1;
+        margin-left: 1rem;
+
+        .item-name {
+          font-size: 0.95rem;
+          color: #333;
+          margin: 0;
+
+          @media (max-width: 576px) {
+            font-size: 0.85rem;
+          }
+        }
+
+        .item-price {
+          font-weight: 600;
+          color: #111;
+          margin: 0;
+          font-size: 0.9rem;
+
+          @media (max-width: 576px) {
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 1.5rem 0;
+  }
+
+  .discount {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    label {
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    .discount-input {
+      display: flex;
+      gap: 0.5rem;
+
+      input {
+        flex: 1;
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 0.9rem;
+
+        @media (max-width: 576px) {
+          padding: 0.4rem;
+          font-size: 0.85rem;
+        }
+      }
+
+      button {
+        background: #111;
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        white-space: nowrap;
+
+        &:hover {
+          background: #000;
+        }
+
+        @media (max-width: 576px) {
+          padding: 0.45rem 0.8rem;
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .applied {
+      font-weight: 600;
+      color: #222;
+    }
+  }
+
+  .summary-totals {
+    margin-top: 1.5rem;
+
+    .line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+
+      &.small {
+        font-size: 0.85rem;
+        color: #777;
+      }
+
+      &.total {
+        margin-top: 1rem;
+        font-size: 1.1rem;
+
+        @media (max-width: 576px) {
+          font-size: 1rem;
+        }
+      }
+
+      &.discount-line {
+        color: #c62828;
+      }
+    }
+  }
+
+  .accept-btn {
+    width: 100%;
+    background: #4a68ff;
+    color: #fff;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    &:hover {
+      background: #3657e0;
+    }
+
+    @media (max-width: 576px) {
+      padding: 0.7rem;
+      font-size: 0.9rem;
+    }
+  }
+}

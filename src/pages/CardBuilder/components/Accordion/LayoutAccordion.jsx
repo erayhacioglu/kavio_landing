@@ -103,43 +103,38 @@ export default function LayoutAccordion({
               {/* ---- Underline floating inputs (controlled) ---- */}
               {
                 selectedType !== "teams" && <>
-                <div className="form-underline">
-                <div className={`fi tone-${cardTone}`}>
+                <div className="mui-field">
                   <input
-                    id={`fullName-${id}`}
-                    className="fi__input"
                     type="text"
+                    id={`fullName-${id}`}
+                    className="mui-input"
+                    placeholder=" "
                     name="name"
                     value={item?.layout?.name ?? ""}
                     onChange={handleFieldChange}
-                    placeholder=" "
-                    autoComplete="off"
                   />
-                  <label htmlFor={`fullName-${id}`} className="fi__label">
+                  <label htmlFor={`fullName-${id}`} className="mui-label">
                     Ad Soyad
                   </label>
-                  <span className="fi__line" />
+                  <span className="mui-line"></span>
                 </div>
-
-                {item?.layout?.type === "classic" && (
-                  <div className={`fi tone-${cardTone}`}>
-                    <input
-                      id={`title-${id}`}
-                      className="fi__input"
-                      type="text"
-                      name="title"
-                      value={item?.layout?.title ?? ""}
+                {
+                  item?.layout?.type === "classic" && <div className="mui-field">
+                  <input
+                    type="text"
+                    id={`title-${id}`}
+                    className="mui-input"
+                    placeholder=" "
+                    name="title"
+                    value={item?.layout?.title ?? ""}
                       onChange={handleFieldChange}
-                      placeholder=" "
-                      autoComplete="off"
-                    />
-                    <label htmlFor={`title-${id}`} className="fi__label">
-                      Unvan | Şirket
-                    </label>
-                    <span className="fi__line" />
-                  </div>
-                )}
-              </div>
+                  />
+                  <label htmlFor={`title-${id}`} className="mui-label">
+                    Unvan | Şirket
+                  </label>
+                  <span className="mui-line"></span>
+                </div>
+                }
                 </>
               }
             </div>

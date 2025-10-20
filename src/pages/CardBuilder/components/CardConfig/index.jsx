@@ -48,7 +48,9 @@ const CardConfig = ({
     const i = order.indexOf(cardTab);
     if (isLast) {
       // Ödemeye Geç
-      navigate("/checkout");
+      navigate("/checkout",{
+        state:{cards}
+      });
       return;
     }
     if (i < order.length - 1) {

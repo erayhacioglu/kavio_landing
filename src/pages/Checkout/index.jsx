@@ -1,7 +1,23 @@
 import "./checkout.scss";
 import checkoutLogo from "../../assets/images/kavio_logo.png";
+import { useLocation,Link } from "react-router";
+import CheckoutSummary from "./CheckoutSummary";
 
 const Checkout = () => {
+  const location = useLocation();
+  const cards = location.state?.cards;
+
+  console.log('cards', cards)
+
+  if(!cards){
+    return <div className="container my-5">
+      <div className="checkout_message_container">
+        <h3 className="checkout_message">Sepetiniz boş. Devam etmek için önce bir ürün seçin.</h3>
+        <Link to="/" className="checkout_message_link" >Ansayfaya Dön</Link>
+      </div>
+    </div>
+  }
+
   return (
     <div className="container my-5">
       <div className="checkout_wrapper">
@@ -200,7 +216,7 @@ const Checkout = () => {
               </div>
             </div>
           </div>
-          <div className="summary">SUMMARY</div>
+          <CheckoutSummary cards={cards}/>
         </div>
       </div>
     </div>

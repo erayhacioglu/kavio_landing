@@ -7,12 +7,13 @@
   justify-content: center;
   position: relative;
   perspective: 1200px;
+  padding: 20px;
 
   .card_change_button {
     position: absolute;
     right: 25px;
     top: 10px;
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 10px;
     background-color: #eee;
     color: #535353;
@@ -22,11 +23,7 @@
     border: none;
     outline: none;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: #ddd;
-    }
+    transition: background-color 0.2s ease, transform 0.2s ease;
   }
 
   .nfc_card {
@@ -51,6 +48,7 @@
       background: #1f1b20;
       color: #fff;
       box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.2);
+
       &.black {
         background: #1f1b20;
         color: #fff;
@@ -66,7 +64,6 @@
     }
 
     .nfc_card_front {
-      background: #1f1b20;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -80,24 +77,12 @@
     }
 
     .nfc_card_back {
-      background: #1f1b20;
       transform: rotateY(180deg);
       padding: 20px;
-      &.black {
-        background: #1f1b20;
-        color: #fff;
-      }
-      &.silver {
-        background: #bdbdbd;
-        color: #111;
-      }
-      &.gold {
-        background: #d4af37;
-        color: #fff9e5;
-      }
+
       .qr_zone {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
         background: #fff;
         border-radius: 8px;
         display: flex;
@@ -136,8 +121,94 @@
   }
 }
 
-@media only screen and (max-width: 992px) {
+/* ---------- TABLET ---------- */
+@media (max-width: 992px) {
   .card_preview_container {
-    height: 350px;
+    height: 400px !important;
+    padding: 10px !important;
+
+    .nfc_card {
+      width: 340px !important;
+      height: 210px !important;
+    }
+
+    .card_change_button {
+      right: 15px !important;
+      top: 8px !important;
+      padding: 8px !important;
+    }
+
+    .nfc_card_back {
+      padding: 20px !important;
+
+      .qr_zone {
+        width: 70px !important;
+        height: 70px !important;
+        right: 30px !important;
+      }
+
+      .card_info {
+        left: 20px !important;
+        bottom: 20px !important;
+
+        .card_name {
+          font-size: 18px !important;
+        }
+
+        .card_title {
+          font-size: 13px !important;
+        }
+      }
+    }
   }
 }
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 576px) {
+  .card_preview_container {
+    height: 300px !important;
+    padding: 5px !important;
+
+    .nfc_card {
+      width: 280px !important;
+      height: 170px !important;
+      border-radius: 14px !important;
+    }
+
+    .card_change_button {
+      right: 10px !important;
+      top: 6px !important;
+      padding: 6px !important;
+    }
+
+    .nfc_card_back {
+      padding: 10px !important;
+
+      .qr_zone {
+        width: 60px !important;
+        height: 60px !important;
+        right: 15px !important;
+      }
+
+      .card_info {
+        left: 15px !important;
+        bottom: 15px !important;
+
+        .card_name {
+          font-size: 16px !important;
+        }
+
+        .card_title {
+          font-size: 12px !important;
+        }
+      }
+    }
+
+    .nfc_card_front {
+      .card_logo {
+        width: 100px !important;
+      }
+    }
+  }
+}
+

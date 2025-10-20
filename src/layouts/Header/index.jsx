@@ -8,6 +8,26 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [closing, setClosing] = useState(false);
 
+  const [scrolled, setScrolled] = useState(false);
+  const isMobile = window.innerWidth <= 992;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if(isMobile){
+        setScrolled(window.scrollY > 50);
+      }else{
+        setScrolled(window.scrollY > 100);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Temizlik: component unmount olunca event listener'ı sil
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   // scroll disable
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
@@ -28,13 +48,13 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
+    <header className={`header ${scrolled ? "scrolled-header":""}`}>
       <div className="container">
         <div className="header_container">
           {/* Sağdaki logo */}
-          <div className="logo">
+          <Link to="/" className="logo">
             <img src={logoImg} alt="KAVIO Logo" className="logo_img" />
-          </div>
+          </Link>
 
           {/* Sol tarafta menü ve actions */}
           <nav className="navbar">

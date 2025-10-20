@@ -4,7 +4,7 @@ import CardFeature2 from "../../components/CardFeatures/CardFeature2";
 import CardFeature3 from "../../components/CardFeatures/CardFeature3";
 import WorldSection from "../../components/WorldSection.jsx";
 import PricingSection from "../../components/PricingSection/index.jsx";
-import CardShowcase from "../../components/CardShowcase/index.jsx";
+import CardSelector from "../../components/CardSelector/index.jsx";
 
 const Home = () => {
   
@@ -15,7 +15,7 @@ const Home = () => {
       <CardFeature1 />
       <CardFeature2 />
       <CardFeature3 />
-      <CardShowcase />
+      <CardSelector />
       <PricingSection />
     </div>
   );

@@ -1,0 +1,129 @@
+.card_selector_section {
+  text-align: center;
+  background: #1a1a1a;
+  color: #fff;
+  padding: 80px 20px;
+
+  .card_selector_header {
+    margin-bottom: 50px;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #bcbcbc;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 576px) {
+      h2 {
+        font-size: 1.6rem;
+      }
+      p {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .card_selector_wrapper {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    .swiper {
+      padding: 10px;
+    }
+
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0.85;
+
+      &:hover {
+        opacity: 1;
+        transform: translateY(-5px);
+      }
+    }
+
+    .card_item {
+      background: transparent;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      img {
+        width: 280px;
+        height: auto;
+        border-radius: 14px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+          transform: scale(1.03);
+          box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+        }
+      }
+
+      p {
+        margin: 0;
+        color: #dcdcdc;
+        font-weight: 500;
+        font-size: 1rem;
+      }
+
+      @media (max-width: 576px) {
+        img {
+          width: 220px;
+        }
+        p {
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    /* --- Navigation Buttons --- */
+    .nav-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      &.prev {
+        left: -50px;
+      }
+
+      &.next {
+        right: -50px;
+      }
+
+      @media (max-width: 768px) {
+        display: none; // Mobile’da gizle
+      }
+    }
+  }
+}

@@ -10,7 +10,6 @@ export default function FanCards() {
   const isMobile = window.innerWidth <= 576;
   const isTablet = window.innerWidth <= 992 && window.innerWidth > 576;
 
-  // 🔹 Ekrana göre açılma mesafelerini dinamik ayarla
   const config = isMobile
     ? { rotation: [-10, 0, 10], x: [-60, 0, 60], y: [0, -8, 0] }
     : isTablet
