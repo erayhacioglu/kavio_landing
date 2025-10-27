@@ -2,9 +2,9 @@ import React, { useMemo, useState } from "react";
 import "./checkout_summary.scss";
 
 // Görselleri type’a göre import et
-import blackImg from "../../../assets/images/cards/black.png";
-import whiteImg from "../../../assets/images/cards/white.png";
-import silverImg from "../../../assets/images/cards/silver.png";
+import blackImg from "../../../assets/images/cards/black_card.png";
+import whiteImg from "../../../assets/images/cards/white_card.png";
+import silverImg from "../../../assets/images/cards/silver_card.png";
 
 const cardImages = {
   black: blackImg,

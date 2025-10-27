@@ -2,9 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import "./fan_cards.scss";
 
-import blackCard from "../../assets/images/black_card.png";
-import goldCard from "../../assets/images/gold_card.png";
-import greenCard from "../../assets/images/green_card.png";
+import blackCard from "../../assets/images/cards/black_card_vertical.png";
+import silverCard from "../../assets/images/cards/silver_card_vertical.png";
+import roseCard from "../../assets/images/cards/rose_card_vertical.png";
 
 export default function FanCards() {
   const isMobile = window.innerWidth <= 576;
@@ -17,9 +17,9 @@ export default function FanCards() {
     : { rotation: [-20, 0, 20], x: [-120, 0, 120], y: [0, -15, 0] };
 
   const cards = [
-    { src: greenCard, z: 1 },
+    { src: silverCard, z: 1 },
     { src: blackCard, z: 3 },
-    { src: goldCard, z: 2 },
+    { src: roseCard, z: 2 },
   ];
 
   return (

@@ -9,11 +9,10 @@ const HeroSection = () => {
         <div className="hero-container">
           <div className="hero-left">
             <h1>
-              <span>Fikirlerinizi</span> bizimle dijital başarıya dönüştürün!
+              <span>Dijital</span> kimliğin en şık hali. Kavio ile <span>temas</span> bir deneyime dönüşür.
             </h1>
             <p>
-              İşletmenizin her aşamasında ürün tasarımı, web sitesi oluşturma ve
-              markalaşma konusunda ortağınızız.
+            Dijital kartvizitin ötesinde: kişisel markan, etkileşimin ve performansın tek bir yerde.
             </p>
             <div className="hero-buttons">
               <button className="btn btn-primary">Hizmetler</button>

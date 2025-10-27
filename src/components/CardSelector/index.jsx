@@ -7,17 +7,16 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "./card_selector.scss";
 
-import blackCard from "../../assets/images/cards/black.png";
-import whiteCard from "../../assets/images/cards/white.png";
-import silverCard from "../../assets/images/cards/silver.png";
+import blackCard from "../../assets/images/cards/black_card.png";
+import whiteCard from "../../assets/images/cards/white_card.png";
+import silverCard from "../../assets/images/cards/silver_card.png";
+import roseCard from "../../assets/images/cards/rose_card.png";
 
 const cardData = [
   { id: 1, name: "KAVIO Black Card", img: blackCard, type: "black" },
   { id: 2, name: "KAVIO White Card", img: whiteCard, type: "white" },
   { id: 3, name: "KAVIO Silver Card", img: silverCard, type: "silver" },
-  { id: 4, name: "KAVIO Black Card", img: blackCard, type: "black" },
-  { id: 5, name: "KAVIO White Card", img: whiteCard, type: "white" },
-  { id: 6, name: "KAVIO Silver Card", img: silverCard, type: "silver" },
+  { id: 3, name: "KAVIO Rose Card", img: roseCard, type: "rose" },
 ];
 
 const CardSelector = () => {
