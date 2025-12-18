@@ -5,6 +5,7 @@ import CardTab from "./tabs/CardTab";
 import LogoTab from "./tabs/LogoTab";
 import LayoutTab from "./tabs/LayoutTab";
 import { AnimatePresence, motion } from "framer-motion";
+import { useMemo } from "react";
 
 const cardTabsData = [
   { id: 1, value: "card", label: "Card" },
@@ -21,10 +22,11 @@ const CardConfig = ({
   setCards,
   selectedCard,
   setSelectedCard,
-  selectedType
+  selectedType,
+  cardData,
 }) => {
   const navigate = useNavigate();
-  const firstCardId = cards?.[0]?.id ?? null;
+  const firstCardId = cards?.[0]?.item?.id ?? null;
   const isFirst = cardTab === "card";
   const isLast = cardTab === "layout";
 
@@ -48,8 +50,8 @@ const CardConfig = ({
     const i = order.indexOf(cardTab);
     if (isLast) {
       // Ödemeye Geç
-      navigate("/checkout",{
-        state:{cards}
+      navigate("/checkout", {
+        state: { cards },
       });
       return;
     }
@@ -60,6 +62,30 @@ const CardConfig = ({
       setCardTab(next);
     }
   };
+
+  const { currentCard } = useMemo(() => {
+    if (!Array.isArray(cards) || !selectedCard) return { currentCard: null };
+
+    const current = cards.find((el) => el?.item?.id === selectedCard);
+
+    return { currentCard: current };
+  }, [cards, selectedCard]);
+
+  const cardName = cardData?.find(
+    (el) => el?.value === currentCard?.item?.product
+  )?.label;
+  const cardLayout = currentCard?.item?.layout;
+  const cardLayoutColor =
+    cardLayout?.split("_")[cardLayout?.split("_")?.length - 1];
+  const cardLayoutType = cardLayout?.split("_")?.includes("TWO")
+    ? "TWO_LINE"
+    : "ONE_LINE";
+
+  const fullName = `${currentCard?.userInfo?.name ?? ""} ${
+    currentCard?.userInfo?.surname ?? ""
+  }`.trim();
+
+  console.log('cardData', cardData)
 
   return (
     <div className="card_config_container">
@@ -92,7 +118,12 @@ const CardConfig = ({
             transition={{ duration: 0.22, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
             {cardTab === "card" && (
-              <CardTab cards={cards} setCards={setCards} selectedType={selectedType}/>
+              <CardTab
+                cards={cards}
+                setCards={setCards}
+                selectedType={selectedType}
+                cardData={cardData}
+              />
             )}
             {cardTab === "logo" && (
               <LogoTab
@@ -101,6 +132,7 @@ const CardConfig = ({
                 selectedCard={selectedCard}
                 setSelectedCard={setSelectedCard}
                 selectedType={selectedType}
+                cardData={cardData}
               />
             )}
             {cardTab === "layout" && (
@@ -110,6 +142,7 @@ const CardConfig = ({
                 selectedCard={selectedCard}
                 setSelectedCard={setSelectedCard}
                 selectedType={selectedType}
+                cardData={cardData}
               />
             )}
           </motion.div>

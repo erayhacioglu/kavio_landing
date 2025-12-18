@@ -50,7 +50,7 @@ const PricingSection = () => {
             <li>Logo ve marka özelleştirmesi</li>
             <li>Öncelikli destek</li>
           </ul>
-          <button className="btn btn-primary" onClick={() => handleNavigate("company")}>Kurumsal Başvur</button>
+          <button className="btn btn-primary" onClick={() => handleNavigate("institutional")}>Kurumsal Başvur</button>
         </div>
       </div>
     </section>

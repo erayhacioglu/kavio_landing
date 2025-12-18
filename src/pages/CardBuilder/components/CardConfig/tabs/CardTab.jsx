@@ -3,192 +3,273 @@ import { Plus, Trash2 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import "./card_tabs.scss";
 
-const OPTIONS = [
-  { value: "black",  label: "Black"  },
-  { value: "silver", label: "Silver" },
-  { value: "white",  label: "White"  },
-  { value: "red",    label: "Red"    },
-  { value: "gold",   label: "Gold"   },
-];
+/* -----------------------------
+   RENK SWATCH (VALUE ÜZERİNDEN)
+----------------------------- */
+const swatchColor = (value) => {
+  if (!value) return "#E5E7EB";
 
-const swatchColor = (v) =>
-  v === "white"  ? "#E5E7EB" :
-  v === "silver" ? "#BDBDBD" :
-  v === "red"    ? "#DC2626" :
-  v === "gold"   ? "#D4AF37" :
-  v === "black"  ? "#262626" : "";
+  if (value.includes("SIYAH")) return "#262626";
+  if (value.includes("BEYAZ")) return "#E5E7EB";
+  if (value.includes("MAVI")) return "#2563EB";
+  if (value.includes("YESIL")) return "#16A34A";
+  if (value.includes("MOR")) return "#7C3AED";
+  if (value.includes("SEFFAF")) return "#CBD5E1";
+  if (value.includes("GOLD")) return "#D4AF37";
+  if (value.includes("GUMUS") || value.includes("SILVER")) return "#9CA3AF";
+  if (value.includes("ROSE")) return "#F43F5E";
 
-const CardTab = ({ cards, setCards, selectedType }) => {
+  return "#E5E7EB";
+};
+
+const getTextColor = (bg) => {
+  if (!bg) return "#111827";
+
+  // koyu renkler
+  if (
+    bg === "#262626" || // siyah
+    bg === "#7C3AED" || // mor
+    bg === "#2563EB"    // mavi
+  ) {
+    return "#FFFFFF";
+  }
+
+  // açık renkler
+  return "#111827";
+};
+
+
+const CardTab = ({ cards, setCards, selectedType, cardData }) => {
   const [openId, setOpenId] = useState(null);
 
+  /* -----------------------------
+     OUTSIDE CLICK
+  ----------------------------- */
   useEffect(() => {
     const close = () => setOpenId(null);
     document.addEventListener("click", close);
     return () => document.removeEventListener("click", close);
   }, []);
 
+  /* -----------------------------
+     ADD CARD
+  ----------------------------- */
   const handleAddCard = () => {
     setCards((prev) => [
       ...prev,
       {
-        id: (prev?.[prev.length - 1]?.id ?? 0) + 1,
-        card: { name: null, count: 1 },
-        logo: { img: null },
-        layout: { type: "classic", color: "white", name: null, title: null },
+        item: {
+          id: (prev?.[prev.length - 1]?.item?.id ?? 0) + 1,
+          product: "",
+          amount: null,
+          quantity: 1,
+          layout: "BOTTOM_LEFT_TWO_LINE_NAME_TITLE_BLACK",
+          logo: "",
+        },
+        userInfo: {
+          name: "",
+          surname: "",
+          title: null,
+        },
       },
     ]);
   };
 
+  /* -----------------------------
+     REMOVE
+  ----------------------------- */
   const handleRemove = (id) => {
-    setCards((prev) => prev.filter((c) => c.id !== id));
+    setCards((prev) => prev.filter((c) => c.item.id !== id));
     if (openId === id) setOpenId(null);
   };
 
-  const handleSelect = (id, value) => {
+  /* -----------------------------
+     SELECT PRODUCT
+  ----------------------------- */
+  const handleSelect = (id, productValue) => {
+    const selectedProduct = cardData.find((x) => x.value === productValue);
+
     setCards((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, card: { ...c.card, name: value } } : c))
+      prev.map((c) =>
+        c.item.id === id
+          ? {
+              ...c,
+              item: {
+                ...c.item,
+                product: productValue,
+                amount: selectedProduct?.price ?? null,
+              },
+            }
+          : c
+      )
     );
+
     setOpenId(null);
   };
 
+  /* -----------------------------
+     COUNT
+  ----------------------------- */
   const handleCount = (id, value) => {
     const n = Math.max(1, Number(value) || 1);
     setCards((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, card: { ...c.card, count: n } } : c))
+      prev.map((c) =>
+        c.item.id === id
+          ? {
+              ...c,
+              item: {
+                ...c.item,
+                quantity: n,
+              },
+            }
+          : c
+      )
     );
   };
 
-  // sıralama: önce ismi olanlar, sonra boşlar; aynı isimliler id ASC
+  /* -----------------------------
+     SORT
+  ----------------------------- */
   const viewCards = useMemo(() => {
-    if (!Array.isArray(cards)) return [];
-    if (selectedType === "teams") return cards;
-    const copy = [...cards];
-    return copy.sort((a, b) => {
-      const na = (a.card?.name || "").toLowerCase();
-      const nb = (b.card?.name || "").toLowerCase();
-      if (!na && nb) return 1;    // a boşsa sona
-      if (na && !nb) return -1;   // b boşsa sona
-      if (na === nb) return (a.id ?? 0) - (b.id ?? 0);
-      return na.localeCompare(nb);
-    });
-  }, [cards, selectedType]);
+  if (!Array.isArray(cards)) return [];
+  return cards; // eklediğin sıra neyse o
+}, [cards]);
+
 
   return (
     <div className="card_tab">
-      {viewCards.length > 0 &&
-        viewCards.map((c) => {
-          const selected = (c.card?.name || "").toLowerCase();
+      {viewCards.map((c) => {
+        const selectedValue = c.item.product;
+        const isOpen = openId === c.item.id;
 
-          // ---- LABEL HESABI ----
-          const baseName = OPTIONS.find((o) => o.value === selected)?.label;
-          // 1) varsayılan
-          let label = baseName ? `${baseName} Kart` : "Kart Tipi Seçiniz";
-          // 2) teams değilse ve aynı isimden birden fazla varsa numaralandır
-          if (baseName && selectedType !== "teams") {
-            const sameNameIds = viewCards
-              .filter((x) => (x.card?.name || "").toLowerCase() === selected)
-              .map((x) => x.id);
-            if (sameNameIds.length > 1) {
-              const pos = sameNameIds.indexOf(c.id) + 1; // 1-based
-              label = `${baseName} Kart ${pos}`;
-            }
+        const selectedProduct = cardData.find((x) => x.value === selectedValue);
+
+        /* -----------------------------
+           LABEL
+        ----------------------------- */
+        let label = selectedProduct
+          ? selectedProduct.label
+          : "Kart Tipi Seçiniz";
+
+        if (selectedProduct && selectedType !== "institutional") {
+          const sameIds = viewCards
+            .filter((x) => x.item.product === selectedValue)
+            .map((x) => x.item.id);
+
+          if (sameIds.length > 1) {
+            const pos = sameIds.indexOf(c.item.id) + 1;
+            label = `${selectedProduct.label} ${pos}`;
           }
+        }
 
-          // Bu satırın opsiyonları:
-          const usedByOthers = new Set(
-            viewCards
-              .filter((x) => x.id !== c.id)
-              .map((x) => (x.card?.name || "").toLowerCase())
-              .filter(Boolean)
-          );
-          const optionsForRow =
-            selectedType === "teams"
-              ? OPTIONS.filter(
-                  (opt) => opt.value === selected || !usedByOthers.has(opt.value)
-                )
-              : OPTIONS;
+        /* -----------------------------
+           OPTIONS (INSTITUTIONAL)
+        ----------------------------- */
+        const usedByOthers = new Set(
+          viewCards
+            .filter((x) => x.item.id !== c.item.id)
+            .map((x) => x.item.product)
+            .filter(Boolean)
+        );
 
-          const isOpen = openId === c.id;
+        const optionsForRow =
+          selectedType === "institutional"
+            ? cardData.filter(
+                (opt) =>
+                  opt.value === selectedValue || !usedByOthers.has(opt.value)
+              )
+            : cardData;
 
-          return (
-            <div className="card_group" key={c.id}>
-              {/* DROPDOWN */}
-              <div className="card_dropdown" onClick={(e) => e.stopPropagation()}>
-                <button
-                  type="button"
-                  className={`dropdown_btn ${isOpen ? "is-open" : ""}`}
-                  onClick={() => setOpenId(isOpen ? null : c.id)}
-                  aria-expanded={isOpen}
-                >
-                  <span className="dropdown_label">{label}</span>
-                  <span className="swatch" style={{ background: swatchColor(selected) }} />
-                  <span className="caret" aria-hidden>▾</span>
-                </button>
-
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      className="dropdown_menu"
-                      role="listbox"
-                      initial={{ opacity: 0, scale: 0.98, y: -4 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.98, y: -4 }}
-                      transition={{ duration: 0.16, ease: [0.21, 0.47, 0.32, 0.98] }}
-                    >
-                      <div className="menu_scroll">
-                        {optionsForRow.map((opt) => (
-                          <button
-                            key={opt.value}
-                            type="button"
-                            className={`option_row ${selected === opt.value ? "is-active" : ""}`}
-                            onClick={() => handleSelect(c.id, opt.value)}
-                            role="option"
-                            aria-selected={selected === opt.value}
-                          >
-                            <span className="option_label">{opt.label}</span>
-                            <span className="variant_preview">
-                              <span className="mini_card" data-variant={opt.value}>
-                                <span className="mini_brand">KAVIO</span>
-                              </span>
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* ADET */}
-              <div className="card_counter">
-                <input
-                  type="number"
-                  min="1"
-                  value={c.card?.count ?? 1}
-                  onChange={(e) => handleCount(c.id, e.target.value)}
-                  className="qty_input"
+        return (
+          <div className="card_group" key={c.item.id}>
+            {/* DROPDOWN */}
+            <div className="card_dropdown" onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                className={`dropdown_btn ${isOpen ? "is-open" : ""}`}
+                onClick={() => setOpenId(isOpen ? null : c.item.id)}
+                aria-expanded={isOpen}
+              >
+                <span className="dropdown_label">{label}</span>
+                <span
+                  className="swatch"
+                  style={{
+                    background: swatchColor(selectedValue),
+                  }}
                 />
-              </div>
+                <span className="caret">▾</span>
+              </button>
 
-              {/* TRASH */}
-              <div className="card_trash">
-                <button
-                  type="button"
-                  className="trash_btn"
-                  onClick={() => handleRemove(c.id)}
-                  aria-label="Remove"
-                  title="Remove"
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    className="dropdown_menu"
+                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                    transition={{ duration: 0.16 }}
+                  >
+                    <div className="menu_scroll">
+                      {optionsForRow.map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          className={`option_row ${
+                            selectedValue === opt.value ? "is-active" : ""
+                          }`}
+                          onClick={() => handleSelect(c.item.id, opt.value)}
+                        >
+                          <span className="option_label">{opt.label}</span>
+
+                          <span className="variant_preview">
+                            <span
+                              className="mini_card"
+                              style={{ background: swatchColor(opt.value),color: getTextColor(swatchColor(opt.value)), }}
+                            >
+                              <span className="mini_brand">KAVIO</span>
+                            </span>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          );
-        })}
 
-      {/* EKLE */}
+            {/* ADET */}
+            <div className="card_counter">
+              <input
+                type="number"
+                min="1"
+                value={c.item.quantity}
+                onChange={(e) => handleCount(c.item.id, e.target.value)}
+                className="qty_input"
+              />
+            </div>
+
+            {/* REMOVE */}
+            <div className="card_trash">
+              <button
+                type="button"
+                className="trash_btn"
+                onClick={() => handleRemove(c.item.id)}
+                title="Kaldır"
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
+          </div>
+        );
+      })}
+
+      {/* ADD */}
       <div className="card_add_button_container">
-        <button className="card_add_button" onClick={handleAddCard} title="Kart ekle">
+        <button
+          className="card_add_button"
+          onClick={handleAddCard}
+          title="Kart ekle"
+        >
           <Plus size={20} />
         </button>
       </div>

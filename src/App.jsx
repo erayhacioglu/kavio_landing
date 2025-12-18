@@ -3,6 +3,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import Home from "./pages/Home";
 import CardBuilder from "./pages/CardBuilder";
 import Checkout from "./pages/Checkout";
+import PaymentSuccess from "./pages/PaymentStatus/PaymentSuccess";
+import PaymentFailure from "./pages/PaymentStatus/PaymentFailure";
+import ShipmentTracking from "./pages/ShipmentTracking";
 
 // Route transition bileşenini oluşturuyoruz
 const PageTransition = ({ children }) => {
@@ -55,6 +58,30 @@ function AnimatedRoutes() {
             element={
               <PageTransition>
                 <Checkout />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/payment-success"
+            element={
+              <PageTransition>
+                <PaymentSuccess />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/payment-failure"
+            element={
+              <PageTransition>
+                <PaymentFailure />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/shipment-tracking"
+            element={
+              <PageTransition>
+                <ShipmentTracking />
               </PageTransition>
             }
           />

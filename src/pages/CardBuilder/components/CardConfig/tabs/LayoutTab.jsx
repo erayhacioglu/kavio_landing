@@ -3,18 +3,39 @@ import LayoutAccordion from "../../Accordion/LayoutAccordion";
 
 const prettify = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
+/**
+ * product enum -> okunur label
+ * SIYAH_PVC_KART -> "Siyah Kart"
+ * SIYAH_GOLD_METAL_KART -> "Siyah Gold Kart"
+ */
+const productToBaseLabel = (product) => {
+  const p = (product || "").trim();
+  if (!p) return null;
+
+  const cleaned = p
+    .replace(/_PVC_KART$/i, "")
+    .replace(/_METAL_KART$/i, "")
+    .replace(/_/g, " ")
+    .toLowerCase();
+
+  return prettify(cleaned);
+};
+
 const LayoutTab = ({
   cards,
   setCards,
   onActiveIndexChange,
-  selectedCard,     // id
-  setSelectedCard,  // id setter
+  selectedCard, // item.id
+  setSelectedCard,
   selectedType,
+  cardData
 }) => {
   const [openId, setOpenId] = useState(null);
   const rootRef = useRef(null);
 
-  // Dışarı tıklayınca tüm accordion'ları kapat
+  /* -----------------------------
+     OUTSIDE CLICK
+  ----------------------------- */
   useEffect(() => {
     const onDocClick = (e) => {
       if (!rootRef.current) return;
@@ -24,88 +45,114 @@ const LayoutTab = ({
     return () => document.removeEventListener("click", onDocClick);
   }, []);
 
-  // Sıralama: adı olanlar -> adı boş olanlar, aynı isimliler id ASC
+  /* -----------------------------
+     SORT (product adı olanlar önce)
+  ----------------------------- */
   const viewCards = useMemo(() => {
-    if (!Array.isArray(cards)) return [];
-    const copy = [...cards];
-    return copy.sort((a, b) => {
-      const na = (a.card?.name || "").toLowerCase();
-      const nb = (b.card?.name || "").toLowerCase();
-      if (!na && nb) return 1;   // a boşsa sona
-      if (na && !nb) return -1;  // b boşsa sona
-      if (na === nb) return (a.id ?? 0) - (b.id ?? 0);
-      return na.localeCompare(nb);
-    });
-  }, [cards]);
+  if (!Array.isArray(cards)) return [];
+  return cards; // eklediğin sıra neyse o
+}, [cards]);
 
-  // İlk yüklemede / kart listesi değiştiğinde: seçilmemişse ilk kartı seç
+
+  /* -----------------------------
+     INITIAL SELECT
+  ----------------------------- */
   useEffect(() => {
-    if (!Array.isArray(viewCards) || viewCards.length === 0) {
+    if (!viewCards.length) {
       setOpenId(null);
       return;
     }
+
     if (selectedCard == null) {
-      const firstId = viewCards[0].id;
-      setSelectedCard(firstId);
-      setOpenId(firstId);
+      const firstId = viewCards[0]?.item?.id;
+      if (firstId != null) {
+        setSelectedCard(firstId);
+        setOpenId(firstId);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewCards]);
 
-  // selectedCard (id) değişince açık olanı senkle
+  /* -----------------------------
+     SYNC selectedCard -> openId
+  ----------------------------- */
   useEffect(() => {
-    if (!Array.isArray(viewCards) || viewCards.length === 0) return;
-    if (selectedCard == null) { setOpenId(null); return; }
-    const exists = viewCards.some(c => c.id === selectedCard);
+    if (!viewCards.length) return;
+
+    if (selectedCard == null) {
+      setOpenId(null);
+      return;
+    }
+
+    const exists = viewCards.some((c) => c?.item?.id === selectedCard);
     if (exists) setOpenId(selectedCard);
   }, [selectedCard, viewCards]);
 
-  // openId -> parent’a index bildir (gerekirse)
+  /* -----------------------------
+     openId -> parent index (optional)
+  ----------------------------- */
   useEffect(() => {
-    if (typeof onActiveIndexChange === "function") {
-      if (openId == null) { onActiveIndexChange(null); return; }
-      const idx = viewCards.findIndex(c => c.id === openId);
-      onActiveIndexChange(idx >= 0 ? idx : null);
+    if (typeof onActiveIndexChange !== "function") return;
+
+    if (openId == null) {
+      onActiveIndexChange(null);
+      return;
     }
+
+    const idx = viewCards.findIndex((c) => c?.item?.id === openId);
+    onActiveIndexChange(idx >= 0 ? idx : null);
   }, [openId, viewCards, onActiveIndexChange]);
 
-  // Tek-açık toggle + seçimi id bazlı güncelle
+  /* -----------------------------
+     TOGGLE
+  ----------------------------- */
   const handleToggle = (id) => {
-    setOpenId(curr => (curr === id ? null : id));
-    setSelectedCard(prev => (prev === id ? prev : id));
+    setOpenId((curr) => (curr === id ? null : id));
+    setSelectedCard((prev) => (prev === id ? prev : id));
   };
 
-  // Başlık üretimi: "Black Kart" / "Black Kart 1"
+  /* -----------------------------
+     HEADER LABEL
+  ----------------------------- */
   const headerFor = (card) => {
-    const selected = (card.card?.name || "").toLowerCase();
-    const base = prettify(selected);
-    let label = base ? `${base} Kart` : "Kart Tipi Seçiniz";
-    if (base && selectedType !== "teams") {
-      const sameIds = viewCards
-        .filter(x => (x.card?.name || "").toLowerCase() === selected)
-        .map(x => x.id);
-      if (sameIds.length > 1) {
-        const pos = sameIds.indexOf(card.id) + 1;
-        label = `${base} Kart ${pos}`;
-      }
-    }
-    return label;
-  };
+  const product = card?.item?.product || "";
+  const baseLabel =
+    cardData?.find((x) => x.value === product)?.label || "Kart Tipi Seçiniz";
+
+  if (selectedType === "institutional") return baseLabel;
+  if (!product) return baseLabel;
+
+  const sameIds = viewCards
+    .filter((x) => (x?.item?.product || "") === product)
+    .map((x) => x?.item?.id);
+
+  if (sameIds.length > 1) {
+    const pos = sameIds.indexOf(card?.item?.id) + 1;
+    return `${baseLabel} ${pos}`;
+  }
+
+  return baseLabel;
+};
+
 
   return (
     <div ref={rootRef}>
-      {Array.isArray(viewCards) && viewCards.length > 0 && viewCards.map((card) => (
-        <LayoutAccordion
-          key={card.id}
-          id={card.id}                 // id tabanlı
-          item={card}
-          headerTitle={headerFor(card)}
-          isOpen={openId === card.id}
-          onToggle={() => handleToggle(card.id)}
-          setCards={setCards}
-          selectedType={selectedType}
-        />
-      ))}
+      {viewCards.map((card) => {
+        const id = card?.item?.id;
+
+        return (
+          <LayoutAccordion
+            key={id}
+            id={id}
+            item={card} // { item, userInfo } 그대로 gidiyor
+            headerTitle={headerFor(card)}
+            isOpen={openId === id}
+            onToggle={() => handleToggle(id)}
+            setCards={setCards}
+            selectedType={selectedType}
+          />
+        );
+      })}
     </div>
   );
 };

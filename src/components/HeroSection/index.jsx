@@ -1,8 +1,9 @@
-import React from "react";
 import "./hero_section.scss";
 import FanCards from "../FanCards";
+import { useNavigate } from "react-router";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   return (
     <section className="hero-section">
       <div className="container">
@@ -16,8 +17,13 @@ const HeroSection = () => {
               markalaşma konusunda ortağınızız.
             </p>
             <div className="hero-buttons">
-              <button className="btn btn-primary">Hizmetler</button>
-              <button className="btn btn-outline">İşlerimiz</button>
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate("/shipment-tracking")}
+              >
+                Kargo Sorgulama
+              </button>
+              {/* <button className="btn btn-outline">İşlerimiz</button> */}
             </div>
           </div>
 
