@@ -293,6 +293,29 @@
   background-position: right 0 center;
 }
 
+/* Error mode */
+.mui-input.error,
+.mui-select.error {
+  border-bottom: 1px solid #e11d48 !important;
+}
+
+.mui-label.error {
+  color: #e11d48 !important;
+}
+
+/* Select error oku da kırmızı yapsın */
+.mui-select.error {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16'%3E%3Cpath fill='%23e11d48' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") !important;
+}
+
+.mui-error-text {
+  font-size: 12px;
+  color: #e11d48;
+  margin-top: 4px;
+}
+
+
+
 /* Alt çizgi efekti */
 .mui-line {
   position: absolute;
@@ -389,4 +412,11 @@
       gap: 15px;
     }
   }
+}
+
+
+
+.mui-input.error ~ .mui-line,
+.mui-select.error ~ .mui-line {
+  display: none;
 }

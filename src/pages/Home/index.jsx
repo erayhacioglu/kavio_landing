@@ -9,7 +9,7 @@ import CardSelector from "../../components/CardSelector/index.jsx";
 const Home = () => {
   
   return(
-    <>
+    <div>
       <HeroSection />
       <WorldSection />
       <CardFeature1 />
@@ -17,7 +17,7 @@ const Home = () => {
       <CardFeature3 />
       <CardSelector />
       <PricingSection />
-    </>
+    </div>
   );
 };
 

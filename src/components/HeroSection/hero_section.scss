@@ -19,7 +19,9 @@
     align-items: center;
     width: 100%;
     gap: 4rem;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 2rem;
 
     @media (max-width: 992px) {
       grid-template-columns: 1fr;

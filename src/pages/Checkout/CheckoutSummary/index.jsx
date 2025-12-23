@@ -1,79 +1,70 @@
 import React, { useMemo, useState } from "react";
 import "./checkout_summary.scss";
 
-// Görselleri type’a göre import et
-import blackImg from "../../../assets/images/cards/black_card.png";
-import whiteImg from "../../../assets/images/cards/white_card.png";
-import silverImg from "../../../assets/images/cards/silver_card.png";
+import blackImg from "../../../assets/images/cards/black.png";
+import whiteImg from "../../../assets/images/cards/white.png";
+import silverImg from "../../../assets/images/cards/silver.png";
 
-const cardImages = {
-  black: blackImg,
-  white: whiteImg,
-  silver: silverImg,
-};
-
-const CheckoutSummary = ({ cards = [] }) => {
+const CheckoutSummary = ({ cards = [], onAccept }) => {
   const [discount, setDiscount] = useState("");
   const [appliedCode, setAppliedCode] = useState(null);
 
-  // geçerli kartlar
   const validCards = useMemo(() => {
     if (!Array.isArray(cards)) return [];
-    return cards.filter((c) => c?.card?.name);
+    return cards.filter((c) => c?.item?.product);
   }, [cards]);
 
-  // toplam hesaplama
-  const subtotal = validCards.reduce(
-    (sum, c) => sum + (c.card.count || 1) * getCardPrice(c.card.name),
-    0
-  );
+  const subtotal = validCards.reduce((sum, c) => {
+    const price = Number(c?.item?.amount || 0);
+    const qty = Number(c?.item?.quantity || 1);
+    return sum + price * qty;
+  }, 0);
 
   const tax = 9;
   const discountAmount = appliedCode ? subtotal * 0.1 : 0;
   const total = subtotal + tax - discountAmount;
-
-  function getCardPrice(name) {
-    switch (name) {
-      case "black":
-      case "white":
-        return 99;
-      case "silver":
-        return 129;
-      default:
-        return 99;
-    }
-  }
 
   const handleApply = () => {
     if (discount.trim().toLowerCase() === "john") {
       setAppliedCode("John Doo");
     } else {
       setAppliedCode(null);
-      alert("Invalid discount code!");
+      alert("Geçersiz indirim kodu!");
     }
   };
+
+  const getImg = (product) => {
+    if (!product) return blackImg;
+    if (product.includes("BEYAZ")) return whiteImg;
+    if (product.includes("SILVER") || product.includes("GUMUS")) return silverImg;
+    if (product.includes("SIYAH")) return blackImg;
+    return blackImg;
+  };
+
+  const formatLabel = (str) =>
+    (str || "")
+      .toLowerCase()
+      .split("_")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
 
   return (
     <div className="checkout_summary">
       <div className="items">
         {validCards.map((item) => {
-          const imgSrc = cardImages[item.card.name] || cardImages.black;
+          const imgSrc = getImg(item.item.product);
+          const qty = Number(item.item.quantity || 1);
+          const price = Number(item.item.amount || 0);
+
           return (
-            <div className="item" key={item.id}>
+            <div className="item" key={item.item.id ?? `${item.item.product}-${Math.random()}`}>
               <div className="item-image">
-                <img src={imgSrc} alt={item.card.name} />
-                <span className="badge">{item.card.count || 1}</span>
+                <img src={imgSrc} alt={item.item.product} />
+                <span className="badge">{qty}</span>
               </div>
               <div className="item-info">
-                <p className="item-name">
-                  KAVIO {capitalize(item.card.name)} Card
-                  {item.layout?.type === "classic"
-                    ? " with silver print"
-                    : " Edition"}
-                </p>
-                <p className="item-price">
-                  ${getCardPrice(item.card.name).toFixed(2)}
-                </p>
+                <p className="item-name">{formatLabel(item.item.product)}</p>
+                <p className="item-price">₺{price.toFixed(2)}</p>
               </div>
             </div>
           );
@@ -83,51 +74,48 @@ const CheckoutSummary = ({ cards = [] }) => {
       <hr />
 
       <div className="discount">
-        <label>Discount</label>
+        <label>İndirim</label>
         {appliedCode ? (
           <p className="applied">{appliedCode}</p>
         ) : (
           <div className="discount-input">
             <input
               type="text"
-              placeholder="Enter code"
+              placeholder="Kod girin"
               value={discount}
               onChange={(e) => setDiscount(e.target.value)}
             />
-            <button onClick={handleApply}>Apply</button>
+            {/* <button onClick={handleApply}>Uygula</button> */}
           </div>
         )}
       </div>
 
       <div className="summary-totals">
         <div className="line">
-          <span>Subtotal</span>
-          <strong>${subtotal.toFixed(2)}</strong>
+          <span>Ara Toplam</span>
+          <strong>₺{subtotal.toFixed(2)}</strong>
         </div>
         <div className="line small">
-          <span>Estimated tax</span>
-          <span>${tax.toFixed(2)}</span>
+          <span>Tahmini vergi</span>
+          <span>₺{tax.toFixed(2)}</span>
         </div>
         {appliedCode && (
           <div className="line small discount-line">
-            <span>Discount (10%)</span>
-            <span>- ${discountAmount.toFixed(2)}</span>
+            <span>İndirim (10%)</span>
+            <span>- ₺{discountAmount.toFixed(2)}</span>
           </div>
         )}
         <div className="line total">
-          <strong>Total</strong>
-          <strong>USD ${total.toFixed(2)}</strong>
+          <strong>Toplam</strong>
+          <strong>TL ₺{total.toFixed(2)}</strong>
         </div>
       </div>
 
-      <button className="accept-btn">Accept</button>
+      <button className="accept-btn" type="button" onClick={onAccept}>
+        Ödemeyi Tamamla
+      </button>
     </div>
   );
 };
 
 export default CheckoutSummary;
-
-// helper
-function capitalize(str) {
-  return str?.charAt(0).toUpperCase() + str?.slice(1) || "";
-}

@@ -9,24 +9,17 @@ const WorldSection = () => {
       <div className="world-container">
         {/* Sol metin */}
         <div className="world-left">
-          {/* <h1>
+          <h1>
             One Card.
             <br />
             Infinite Connections.
             <br />
             Worldwide.
-          </h1> */}
-          <h1>
-            Sınırların
-            <br />
-            ötesinde
-            <br />
-            bir kimlik
           </h1>
           <p className="world-desc">
-          Kavio, insanları ve markaları tek dokunuşla birbirine bağlar.
+            Kavio brings people and businesses together,
             <br />
-            Her bağlantı bir veri, her veri bir fırsattır.
+            transcending borders with a single tap.
           </p>
         </div>
 
@@ -38,11 +31,12 @@ const WorldSection = () => {
 
       {/* Alt metin alanı */}
       <div className="world-bottom">
-        <h2>Profesyonel Ağını Büyüt</h2>
+        <h2>Master Your Inventory with Advanced Tools</h2>
         <p>
-        Nerede olursan ol, dijital kimliğini paylaş, etkileşimlerini ölç
+          Optimize your operations with cutting-edge tools for real-time tracking,
+          automated expiration alerts, and seamless point-of-sale integration.
         </p>
-        <h3>Bağlantı kurmak artık bir deneyim</h3>
+        <h3>Empower Your Business with These Benefits</h3>
       </div>
     </section>
     </div>
