@@ -4,16 +4,8 @@ import { useLocation, Link } from "react-router";
 import CheckoutSummary from "./CheckoutSummary";
 import { useFormik } from "formik";
 import { checkoutSchema } from "./validationSchema";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Axios from "../../services/Axios";
-
-/* SIYAH_PVC_KART -> Siyah Pvc Kart */
-const formatLabel = (str) =>
-  (str || "")
-    .toLowerCase()
-    .split("_")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
 
 const Checkout = () => {
   const location = useLocation();
